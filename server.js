@@ -46,7 +46,7 @@ function verifyPassword(password,encoded){
   try{const actual=Buffer.from(hashPassword(password,parts[1]),"hex");const expected=Buffer.from(parts[2],"hex");return actual.length===expected.length&&crypto.timingSafeEqual(actual,expected);}catch(e){return false;}
 }
 function rateLimit(req,key,max,windowMs){
-  const now=Date.now();const ip=(req.headers["x-forwarded-for"]||req.socket.remoteAddress||"unknown").split(",")[0].trim();const id=`${key}:${ip}`;
+  const now=Date.now();const ip=req.socket.remoteAddress||"unknown";const id=`${key}:${ip}`;
   const hits=rateLimits.get(id)||[];const fresh=hits.filter(t=>now-t<windowMs);fresh.push(now);rateLimits.set(id,fresh);
   return fresh.length<=max;
 }
@@ -144,7 +144,7 @@ async function api(req,res){
       const p=parts[0];if(!p)return json(res,400,{error:"No file"});
       const signatures=[["image/jpeg",Buffer.from([0xff,0xd8,0xff])],["image/png",Buffer.from([0x89,0x50,0x4e,0x47])],["image/gif",Buffer.from("GIF8")]];
       const allowed=["image/jpeg","image/png","image/webp","image/gif"];if(!allowed.includes(p.type))return json(res,415,{error:"Only JPG, PNG, WEBP and GIF are allowed"});
-      if(p.type!=="image/webp"&&!signatures.some(([t,s])=>t===p.type&&p.data.subarray(0,s.length).equals(s)))return json(res,415,{error:"Invalid image file"});
+      const signatureOK=p.type==="image/webp"?(p.data.length>=12&&p.data.subarray(0,4).toString("ascii")==="RIFF"&&p.data.subarray(8,12).toString("ascii")==="WEBP"):signatures.some(([t,s])=>t===p.type&&p.data.subarray(0,s.length).equals(s));if(!signatureOK)return json(res,415,{error:"Invalid image file"});
       const filename=crypto.randomBytes(12).toString("hex")+extFor(p.type,safeName(p.filename));fs.writeFileSync(path.join(UPLOAD_DIR,filename),p.data);return json(res,201,{ok:true,url:"/uploads/"+filename,filename});
     }catch(e){return json(res,400,{error:e.message});}
   }
