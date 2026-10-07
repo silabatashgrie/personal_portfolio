@@ -24,7 +24,7 @@ if(!ADMIN_USER||!ADMIN_PASSWORD_HASH){
 }
 if(!fs.existsSync(path.dirname(DATA_FILE)))fs.mkdirSync(path.dirname(DATA_FILE),{recursive:true});
 if(!fs.existsSync(UPLOAD_DIR))fs.mkdirSync(UPLOAD_DIR,{recursive:true});
-if(!fs.existsSync(DATA_FILE))fs.writeFileSync(DATA_FILE,JSON.stringify({profile:{},skills:[],projects:[],portfolio:[],services:[],posts:[],messages:[]},null,2));
+if(!fs.existsSync(DATA_FILE)){const example=path.join(path.dirname(DATA_FILE),"db.example.json");if(fs.existsSync(example))fs.copyFileSync(example,DATA_FILE);else fs.writeFileSync(DATA_FILE,JSON.stringify({profile:{},skills:[],projects:[],portfolio:[],services:[],posts:[],messages:[]},null,2));}
 
 function readDB(){try{return JSON.parse(fs.readFileSync(DATA_FILE,"utf8"));}catch(e){return {};}}
 function writeDB(db){fs.writeFileSync(DATA_FILE,JSON.stringify(db,null,2));}
