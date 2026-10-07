@@ -1,0 +1,12 @@
+{
+  "name": "computer-science-personal-portfolio",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Full-stack Computer Science personal portfolio with secure server-side demo authentication, JSON persistence, CRUD APIs, uploads and contact API.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

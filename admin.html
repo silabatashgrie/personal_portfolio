@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Dashboard | Computer Science Portfolio</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.admin-login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+.login-card{width:min(430px,100%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
+.login-card h1{margin:0 0 8px}.login-card p{color:var(--muted)}
+.admin-app{display:none}.admin-shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+.admin-sidebar{background:var(--surface);border-right:1px solid var(--line);padding:22px;position:sticky;top:0;height:100vh}
+.admin-brand{font-size:1.3rem;font-weight:800;margin-bottom:22px}.admin-nav{display:grid;gap:7px}
+.admin-nav button{border:1px solid transparent;background:transparent;color:var(--muted);text-align:left;padding:11px 12px;border-radius:10px;cursor:pointer;font:inherit}
+.admin-nav button:hover,.admin-nav button.active{background:var(--surface2);color:var(--text);border-color:var(--line)}
+.admin-main{padding:30px;max-width:1400px;width:100%;margin:auto}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
+.admin-section{display:none}.admin-section.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+.stat{background:var(--surface);border:1px solid var(--line);padding:20px;border-radius:16px}.stat strong{font-size:2rem;display:block}
+.admin-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}
+label{display:grid;gap:7px;font-weight:600;font-size:.92rem}
+input,textarea,select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:105px;resize:vertical}.check{display:flex;align-items:center;gap:8px}.check input{width:auto}
+.form-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.admin-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.admin-row:last-child{border-bottom:0}.admin-row small{display:block;color:var(--muted);margin-top:3px}
+.btn.danger{border-color:#9f3f55}.preview-box{min-height:180px;padding:18px;border:1px dashed var(--line);border-radius:14px;background:var(--bg)}
+.note{font-size:.88rem;color:var(--muted)}.logout{margin-top:25px;width:100%}
+@media(max-width:900px){.admin-shell{grid-template-columns:1fr}.admin-sidebar{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line)}.admin-nav{display:flex;overflow:auto}.admin-nav button{white-space:nowrap}.admin-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.admin-main{padding:18px}.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.admin-top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div id="adminLogin" class="admin-login">
+  <div class="login-card">
+    <div class="eyebrow">PORTFOLIO CMS · DEMO</div>
+    <h1>Admin Login</h1>
+    <p>Secure server-side session login. Change the default credentials before deployment.</p>
+    <form id="loginForm">
+      <label>Username<input id="adminUser" required value="admin"></label><br>
+      <label>Password<input id="adminPass" type="password" required placeholder="admin123"></label>
+      <p id="loginError" class="note"></p>
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+    <p class="note">Default demo credentials are configured through environment variables. Change them for production.</p>
+  </div>
+</div>
+
+<div id="adminApp" class="admin-app">
+<div class="admin-shell">
+<aside class="admin-sidebar">
+  <div class="admin-brand">slabat<span class="accent">.</span> Admin</div>
+  <nav class="admin-nav">
+    <button class="active" data-section="overview">Overview</button>
+    <button data-section="profile">Profile</button>
+    <button data-section="skills">Skills</button>
+    <button data-section="projects">Projects</button>
+    <button data-section="portfolio">Portfolio</button>
+    <button data-section="services">Services</button>
+    <button data-section="blog">Blog</button>
+    <button data-section="messages">Messages</button><button data-section="dataTools">Data & Settings</button>
+  </nav>
+  <button id="logoutBtn" class="btn ghost logout">Logout</button>
+</aside>
+
+<main class="admin-main">
+<div class="admin-top"><div><div class="eyebrow">CONTENT MANAGEMENT</div><h1>Dashboard</h1></div><a class="btn ghost" href="index.html" target="_blank">Open Website ↗</a></div>
+
+<section id="overview" class="admin-section active">
+  <div class="stats">
+    <div class="stat"><span class="note">Projects</span><strong id="statProjects">0</strong></div>
+    <div class="stat"><span class="note">Portfolio</span><strong id="statPortfolio">0</strong></div>
+    <div class="stat"><span class="note">Services</span><strong id="statServices">0</strong></div>
+    <div class="stat"><span class="note">Blog Posts</span><strong id="statPosts">0</strong></div>
+  </div>
+  <div class="panel"><h2>Live Content System</h2><p>Changes saved here are stored in this browser using localStorage. Open the public site in the same browser to see updated content.</p></div>
+</section>
+
+<section id="profile" class="admin-section">
+<div class="panel"><h2>Edit Profile</h2><form id="profileForm"><div class="form-grid">
+<label>Name<input name="name"></label><label>Professional Title<input name="title"></label>
+<label class="full">Tagline<input name="tagline"></label>
+<label class="full">Bio<textarea name="bio"></textarea></label>
+<label>Email<input name="email"></label><label>Phone<input name="phone"></label>
+<label>Location<input name="location"></label><label>Availability<input name="availability"></label>
+<label>LinkedIn<input name="linkedin"></label><label>GitHub<input name="github"></label>
+<label>Telegram<input name="telegram"></label>
+</div><div class="form-actions"><button class="btn" type="submit">Save Profile</button></div></form></div>
+</section>
+
+<section id="skills" class="admin-section"><div class="admin-grid">
+<div class="panel"><h2>Skill Editor</h2><form id="skillForm"><input type="hidden" id="skillId"><div class="form-grid">
+<label>Skill<input id="skillName" required></label><label>Category<input id="skillCategory" required></label><label>Level %<input id="skillLevel" type="number" min="0" max="100" required></label></div>
+<div class="form-actions"><button class="btn" type="submit">Save Skill</button><button type="button" class="btn ghost" id="cancelSkill">Clear</button></div></form></div>
+<div class="panel"><h2>Current Skills</h2><div id="skillList"></div></div></div></section>
+
+<section id="projects" class="admin-section"><div class="admin-grid">
+<div class="panel"><h2>Project Editor</h2><form id="projectForm"><input type="hidden" id="projectId"><div class="form-grid">
+<label>Title<input id="projectTitle" required></label><label>Category<input id="projectCategory" required></label>
+<label class="full">Description<textarea id="projectDescription" required></textarea></label>
+<label class="full">Tech stack <small class="note">comma separated</small><input id="projectTech"></label>
+<label>Demo URL<input id="projectDemo"></label><label>GitHub URL<input id="projectGithub"></label><label class="full">Image URL<input id="projectImage" placeholder="/uploads/example.jpg"></label>
+<label class="check full"><input id="projectFeatured" type="checkbox"> Show in Featured Projects</label>
+</div><div class="form-actions"><button class="btn" type="submit">Save Project</button><button type="button" class="btn ghost" id="cancelProject">Clear</button></div></form></div>
+<div class="panel"><h2>Current Projects</h2><div id="projectList"></div></div></div></section>
+
+<section id="portfolio" class="admin-section"><div class="admin-grid">
+<div class="panel"><h2>Portfolio Editor</h2><form id="portfolioForm"><input type="hidden" id="portfolioId"><div class="form-grid">
+<label>Title<input id="portfolioTitle" required></label><label>Category<input id="portfolioCategory" required></label>
+<label class="full">Description<textarea id="portfolioDescription" required></textarea></label><label class="full">Project URL<input id="portfolioLink"></label><label class="full">Image URL<input id="portfolioImage" placeholder="/uploads/example.jpg"></label>
+</div><div class="form-actions"><button class="btn" type="submit">Save Item</button><button type="button" class="btn ghost" id="cancelPortfolio">Clear</button></div></form></div>
+<div class="panel"><h2>Portfolio Items</h2><div id="portfolioList"></div></div></div></section>
+
+<section id="services" class="admin-section"><div class="admin-grid">
+<div class="panel"><h2>Service Editor</h2><form id="serviceForm"><input type="hidden" id="serviceId"><div class="form-grid">
+<label>Title<input id="serviceTitle" required></label><label>Icon<input id="serviceIcon" placeholder="✦"></label>
+<label class="full">Description<textarea id="serviceDescription" required></textarea></label>
+</div><div class="form-actions"><button class="btn" type="submit">Save Service</button><button type="button" class="btn ghost" id="cancelService">Clear</button></div></form></div>
+<div class="panel"><h2>Services</h2><div id="serviceList"></div></div></div></section>
+
+<section id="blog" class="admin-section"><div class="admin-grid">
+<div class="panel"><h2>Blog Editor</h2><form id="blogForm"><input type="hidden" id="blogId"><div class="form-grid">
+<label>Title<input id="blogTitle" required></label><label>Date<input id="blogDate" type="date" required></label><label>Category<input id="blogCategory" required></label>
+<label class="full">Excerpt<textarea id="blogExcerpt" required></textarea></label><label class="full">Content<textarea id="blogContent" required></textarea></label>
+</div><div class="form-actions"><button class="btn" type="submit">Save Post</button><button type="button" class="btn ghost" id="cancelBlog">Clear</button></div></form></div>
+<div class="panel"><h2>Blog Posts</h2><div id="blogList"></div></div></div></section>
+
+<section id="messages" class="admin-section"><div class="panel"><h2>Contact Messages</h2><div id="messageList"></div></div></section>
+
+<section id="dataTools" class="admin-section">
+<div class="panel"><h2>Data & Settings</h2><p class="note">Export your portfolio data as JSON, import it later, or reset the browser data to the original demo content.</p>
+<div class="panel"><h3>Image Upload</h3><p class="note">Upload JPG, PNG, WEBP or GIF (max 8 MB), then copy the returned URL into a Project or Portfolio image field.</p><input id="imageUpload" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p id="uploadResult" class="note"></p><button class="btn" id="uploadBtn" type="button">Upload Image</button></div>
+<div class="form-actions"><button class="btn" id="exportData">Export JSON</button><label class="btn ghost" style="cursor:pointer">Import JSON<input id="importData" type="file" accept=".json" hidden></label><button class="btn danger" id="resetData">Reset Demo Data</button></div></div>
+<div class="panel"><h2>Live Preview</h2><div class="preview-box"><p><strong>How it works:</strong></p><p>1. Edit content in Admin.</p><p>2. Save it.</p><p>3. Open the public pages in the same browser.</p><p>4. The pages read the saved content from localStorage.</p></div></div>
+</section>
+
+</main></div></div>
+<script src="js/store.js"></script><script src="js/main.js"></script><script src="js/admin.js"></script>
+</body></html>
