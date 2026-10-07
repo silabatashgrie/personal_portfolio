@@ -1,0 +1,14 @@
+# Runtime / private data
+.env
+.env.*
+!.env.example
+data/db.json
+uploads/*
+!uploads/.gitkeep
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

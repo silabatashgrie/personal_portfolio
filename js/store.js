@@ -21,10 +21,12 @@ async function loadServerData(){
   }catch(e){return getPortfolioData();}
 }
 async function saveServerData(data){
-  savePortfolioData(data);
   try{
-    const r=await fetch("/api/data",{method:"PUT",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(data)});
+    const r=await fetch("/api/data",{method:"PUT",headers:{"Content-Type":"application/json","X-CSRF-Token":window.__csrfToken||""},credentials:"same-origin",body:JSON.stringify(data)});
     if(!r.ok)throw new Error("Server save failed");
-    return await r.json();
+    const result=await r.json();
+    if(result?.data)savePortfolioData(result.data);
+    else savePortfolioData(data);
+    return result;
   }catch(e){return {ok:false,localOnly:true};}
 }

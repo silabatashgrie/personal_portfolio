@@ -38,14 +38,14 @@ textarea{min-height:105px;resize:vertical}.check{display:flex;align-items:center
   <div class="login-card">
     <div class="eyebrow">PORTFOLIO CMS · DEMO</div>
     <h1>Admin Login</h1>
-    <p>Secure server-side session login. Change the default credentials before deployment.</p>
+    <p>Sign in with the administrator credentials configured on the server.</p>
     <form id="loginForm">
       <label>Username<input id="adminUser" required value="admin"></label><br>
       <label>Password<input id="adminPass" type="password" required placeholder="admin123"></label>
       <p id="loginError" class="note"></p>
       <button class="btn" type="submit">Sign in</button>
     </form>
-    <p class="note">Default demo credentials are configured through environment variables. Change them for production.</p>
+    <p class="note">The server must be configured with ADMIN_USER and ADMIN_PASSWORD_HASH before it can start.</p>
   </div>
 </div>
 
@@ -76,7 +76,7 @@ textarea{min-height:105px;resize:vertical}.check{display:flex;align-items:center
     <div class="stat"><span class="note">Services</span><strong id="statServices">0</strong></div>
     <div class="stat"><span class="note">Blog Posts</span><strong id="statPosts">0</strong></div>
   </div>
-  <div class="panel"><h2>Live Content System</h2><p>Changes saved here are stored in this browser using localStorage. Open the public site in the same browser to see updated content.</p></div>
+  <div class="panel"><h2>Live Content System</h2><p>Changes are saved to the server database and appear on the public website after saving.</p></div>
 </section>
 
 <section id="profile" class="admin-section">
@@ -131,10 +131,10 @@ textarea{min-height:105px;resize:vertical}.check{display:flex;align-items:center
 <section id="messages" class="admin-section"><div class="panel"><h2>Contact Messages</h2><div id="messageList"></div></div></section>
 
 <section id="dataTools" class="admin-section">
-<div class="panel"><h2>Data & Settings</h2><p class="note">Export your portfolio data as JSON, import it later, or reset the browser data to the original demo content.</p>
+<div class="panel"><h2>Data & Settings</h2><p class="note">Export a backup of portfolio content, import a JSON backup, or reset server content to the starter demo data.</p>
 <div class="panel"><h3>Image Upload</h3><p class="note">Upload JPG, PNG, WEBP or GIF (max 8 MB), then copy the returned URL into a Project or Portfolio image field.</p><input id="imageUpload" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p id="uploadResult" class="note"></p><button class="btn" id="uploadBtn" type="button">Upload Image</button></div>
-<div class="form-actions"><button class="btn" id="exportData">Export JSON</button><label class="btn ghost" style="cursor:pointer">Import JSON<input id="importData" type="file" accept=".json" hidden></label><button class="btn danger" id="resetData">Reset Demo Data</button></div></div>
-<div class="panel"><h2>Live Preview</h2><div class="preview-box"><p><strong>How it works:</strong></p><p>1. Edit content in Admin.</p><p>2. Save it.</p><p>3. Open the public pages in the same browser.</p><p>4. The pages read the saved content from localStorage.</p></div></div>
+<div class="form-actions"><button class="btn" id="exportData">Export JSON</button><label class="btn ghost" style="cursor:pointer">Import JSON<input id="importData" type="file" accept=".json" hidden></label><button class="btn danger" id="resetData">Reset Server Data</button></div></div>
+<div class="panel"><h2>Live Preview</h2><div class="preview-box"><p><strong>How it works:</strong></p><p>1. Edit content in Admin.</p><p>2. Save it to the server.</p><p>3. Public pages load the current public content from the server API.</p><p>4. Private contact messages remain available only to authenticated admins.</p></div></div>
 </section>
 
 </main></div></div>
