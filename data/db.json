@@ -1,12 +1,12 @@
 {
   "profile": {
-    "name": "slabat ashagre",
+    "name": "Your Name",
     "title": "Computer Science Professional",
     "tagline": "Building digital solutions through code, creativity & technology.",
     "bio": "Computer Science professional focused on web development, automation, digital products and practical technology solutions.",
-    "email": "silabatashagre5@gmail.com",
-    "phone": "+251-937-654-754/ +251-952-830-097",
-    "location": "motta, Ethiopia",
+    "email": "hello@example.com",
+    "phone": "+000 000 0000",
+    "location": "Your City, Country",
     "availability": "Available for freelance projects",
     "linkedin": "#",
     "github": "#",
@@ -23,37 +23,13 @@
       "id": "s2",
       "name": "JavaScript",
       "category": "Web Development",
-      "level": 28
+      "level": 82
     },
     {
       "id": "s3",
       "name": "Python",
       "category": "Programming",
       "level": 76
-    },
-    {
-      "id": "s4",
-      "name": "UI / UX",
-      "category": "Design",
-      "level": 78
-    },
-    {
-      "id": "s5",
-      "name": "Database",
-      "category": "Technology",
-      "level": 72
-    },
-    {
-      "id": "s6",
-      "name": "Automation",
-      "category": "Technology",
-      "level": 80
-    },
-    {
-      "id": "smurbcyxs1g72q",
-      "name": "Mathmatics",
-      "category": "education",
-      "level": 98
     }
   ],
   "projects": [
@@ -71,119 +47,10 @@
       "github": "#",
       "featured": true,
       "image": ""
-    },
-    {
-      "id": "p2",
-      "title": "Personal Brand Website",
-      "category": "Portfolio",
-      "description": "A responsive personal website template designed for professionals and freelancers.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "demo": "#",
-      "github": "#",
-      "featured": true,
-      "image": ""
-    },
-    {
-      "id": "p3",
-      "title": "Workflow Automation",
-      "category": "Automation",
-      "description": "A concept project showing how repetitive digital tasks can be organized and automated.",
-      "tech": [
-        "Python",
-        "Automation"
-      ],
-      "demo": "#",
-      "github": "#",
-      "featured": true,
-      "image": ""
     }
   ],
-  "portfolio": [
-    {
-      "id": "pf1",
-      "title": "Equb Manager",
-      "category": "Web App",
-      "description": "Savings-group management interface.",
-      "link": "#",
-      "image": ""
-    },
-    {
-      "id": "pf2",
-      "title": "Business Landing Page",
-      "category": "Website",
-      "description": "Modern conversion-focused landing page.",
-      "link": "#",
-      "image": ""
-    },
-    {
-      "id": "pf3",
-      "title": "Automation Dashboard",
-      "category": "Automation",
-      "description": "Dashboard concept for process automation.",
-      "link": "#",
-      "image": ""
-    }
-  ],
-  "services": [
-    {
-      "id": "sv1",
-      "title": "Web Development",
-      "icon": "</>",
-      "description": "Responsive websites and web applications for individuals and businesses."
-    },
-    {
-      "id": "sv2",
-      "title": "UI / UX Design",
-      "icon": "✦",
-      "description": "Clean, practical interfaces focused on usability and clear visual hierarchy."
-    },
-    {
-      "id": "sv3",
-      "title": "Automation",
-      "icon": "⚙",
-      "description": "Digital workflow ideas and lightweight automation solutions."
-    }
-  ],
-  "posts": [
-    {
-      "id": "b1",
-      "title": "Building a Better Portfolio",
-      "date": "2026-09-20",
-      "category": "Web Development",
-      "excerpt": "A practical guide to presenting projects, skills and services online.",
-      "content": "Start with a clear purpose, organize your work, and make every section useful to visitors."
-    },
-    {
-      "id": "b2",
-      "title": "Why Responsive Design Matters",
-      "date": "2026-09-15",
-      "category": "Design",
-      "excerpt": "How responsive layouts improve usability across phones, tablets and desktops.",
-      "content": "A responsive interface adapts its layout and controls to different screen sizes."
-    }
-  ],
-  "messages": [
-    {
-      "id": "msgmuqv0b7n194afdf8",
-      "name": "Test User",
-      "email": "test@example.com",
-      "subject": "Smoke test",
-      "message": "Integration test",
-      "createdAt": "2026-10-02T11:08:03.395Z",
-      "status": "new"
-    },
-    {
-      "id": "msgmuqvqe2414de2a56",
-      "name": "Test User",
-      "email": "test@example.com",
-      "subject": "Smoke test",
-      "message": "Integration test",
-      "createdAt": "2026-10-02T11:28:20.141Z",
-      "status": "new"
-    }
-  ]
+  "portfolio": [],
+  "services": [],
+  "posts": [],
+  "messages": []
 }
