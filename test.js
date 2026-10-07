@@ -3,7 +3,7 @@ const {spawn}=require("child_process");
 const path=require("path");
 const base="http://127.0.0.1:3199";
 const crypto=require("crypto");
-function passwordHash(password,salt){return `scrypt${salt}${crypto.scryptSync(password,salt,64).toString("hex")}`;}
+function passwordHash(password,salt){return ["scrypt",salt,crypto.scryptSync(password,salt,64).toString("hex")].join("$");}
 let child;
 function req(method,path,body,cookie){return new Promise((resolve,reject)=>{const u=new URL(base+path);const r=http.request({hostname:u.hostname,port:u.port,path:u.pathname+u.search,method,headers:{Origin:base,...(body?{"Content-Type":"application/json","Content-Length":Buffer.byteLength(body)}:{}),...(cookie?{"Cookie":cookie}:{}),...(arguments[4]?{"X-CSRF-Token":arguments[4]}:{})}},res=>{let b="";res.on("data",c=>b+=c);res.on("end",()=>resolve({status:res.statusCode,headers:res.headers,body:b}));});r.on("error",reject);if(body)r.write(body);r.end();});}
 (async()=>{try{
