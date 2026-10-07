@@ -1,110 +1,117 @@
-# Computer Science Personal Portfolio — FINAL INTEGRATED V5
+# Computer Science Personal Portfolio
 
-## What this package is
-A complete full-stack personal portfolio project built from the v1/v2 template and extended with a Node.js server, server-side session authentication, persistent JSON data storage, CRUD APIs, image uploads, and contact-message storage.
+A full-stack personal portfolio built with HTML, CSS, JavaScript and a Node.js backend using only built-in Node modules.
 
-## Included
+## Features
+
 - Responsive multi-page portfolio
-- Dashboard / Home
-- About
-- Skills
-- Projects
-- Portfolio
-- Services
-- Resume
-- Blog
-- Contact
-- Admin CMS
-- Server-side login/session
-- Profile management
-- CRUD APIs for Skills, Projects, Portfolio, Services and Blog
+- Admin CMS for profile, skills, projects, portfolio, services and blog
+- Server-side session authentication
+- Persistent JSON runtime storage
 - Contact-message inbox
-- Image upload endpoint (JPG/PNG/WEBP/GIF, max 8 MB)
-- JSON export/import
-- Persistent `data/db.json`
-- `uploads/` image storage
+- Image upload endpoint
+- JSON import/export
 - No external npm dependencies
 
-## Run locally
+## Local setup
+
 Requirements: Node.js 18+.
 
-1. Extract the ZIP.
-2. Open a terminal inside the project folder.
-3. Set a strong admin password.
+Create a strong admin password hash. Example:
 
-Windows PowerShell:
+```powershell
+node -e '$c=require("crypto");$s=$c.randomBytes(16).toString("hex");console.log("ADMIN_PASSWORD_HASH=scrypt$"+$s+"$"+$c.scryptSync("YourStrongPasswordHere",$s,64).toString("hex"))'
+```
+
+Then set environment variables before starting:
+
+### Windows PowerShell
+
 ```powershell
 $env:ADMIN_USER="admin"
-$env:ADMIN_PASSWORD="YourStrongPasswordHere"
+$env:ADMIN_PASSWORD_HASH="scrypt$YOUR_SALT$YOUR_HASH"
 node server.js
 ```
 
-Linux/macOS:
+### Linux/macOS
+
 ```bash
-ADMIN_USER=admin ADMIN_PASSWORD='YourStrongPasswordHere' node server.js
+export ADMIN_USER="admin"
+export ADMIN_PASSWORD_HASH='scrypt$YOUR_SALT$YOUR_HASH'
+node server.js
 ```
 
-Then open:
+Open:
+
 - Website: http://localhost:3000
 - Admin: http://localhost:3000/admin.html
 
-## Security
-The default environment fallback password is `ChangeMe_123!`. **Change it before any public deployment.**
+The server refuses to start when authentication secrets are missing.
 
-The server uses:
-- HttpOnly session cookie
-- SameSite=Strict cookie
-- server-side password verification
-- Node `scrypt` password derivation for comparison-ready authentication architecture
-- request size limits
-- image MIME allow-list
-- path traversal protection for static files
-- basic security response headers
+## Data and privacy
 
-For a serious production deployment, also add HTTPS/TLS, a reverse proxy, rate limiting, persistent session storage, CSRF protection for state-changing requests, stronger audit logging, backups, and a production database.
+Production/runtime data is stored in `data/db.json`. **Do not commit this file to the public repository.**
 
-## Data
-Main content is stored in:
-`data/db.json`
+A sanitized starter file is provided as:
 
-Uploaded images are stored in:
-`uploads/`
+`data/db.example.json`
 
-Back up both directories before deployment.
+On first startup, the server copies the example to the runtime database if `data/db.json` does not exist.
 
-## Deployment
-This package is designed to be deployed on a Node.js-capable server. Run:
-```bash
-node server.js
-```
-or use a process manager such as PM2 on a VPS.
+Uploads are stored in `uploads/` and are also ignored by Git.
 
-## Important
-This is a complete portfolio application and a strong production-ready starting structure, but deployment security still depends on the hosting environment. Do not expose the development/default credentials publicly.
+Never commit:
 
-## Next optional enhancements
-- PostgreSQL/MySQL migration
-- Cloud image storage
-- Email notification for contact messages
-- Rich text editor
-- Analytics
-- Two-factor authentication
-- Role-based admin accounts
+- Passwords or password hashes
+- Session secrets
+- API keys or tokens
+- Private messages
+- Customer/member data
+- Personal data that is not intended for public display
+- Production databases or backups
 
+## Security hardening
 
-## V5 integration status
-This V5 build is the single integrated version for normal local use:
+The server includes:
 
-**Admin Dashboard → Node.js Backend → `data/db.json` → Public Website**
+- HttpOnly + SameSite=Strict session cookies
+- scrypt password verification
+- CSRF token checks for authenticated state-changing requests
+- Same-origin checks for state-changing requests
+- Login rate limiting
+- Contact-message rate limiting
+- Request-size limits
+- Image MIME/signature checks
+- Path traversal protection
+- Security response headers
+- Private runtime database protection from static-file access
 
-The public pages load their editable profile, skills, projects, portfolio, services and blog data from `/api/data`. Admin changes are saved to the server, so you do not need to edit HTML files for normal content changes.
+For production, also use HTTPS/TLS, a reverse proxy, persistent session storage, regular backups, monitoring, and preferably PostgreSQL or another production database.
 
-The Home, About, Skills, Projects, Portfolio, Services, Resume, Blog and Contact pages are wired to the shared data layer. The Contact form saves messages to the Admin inbox.
+## Testing
 
-A Node-based smoke test is included:
+Run:
+
 ```bash
 node test.js
 ```
-It checks all public/admin pages, API health/data, login/session, profile persistence, and contact-message delivery.
 
-**Last validation:** `ALL TESTS PASSED`.test
+The smoke test covers public pages, health/data APIs, authentication, CSRF-protected profile persistence and contact-message delivery.
+
+## Public GitHub repository
+
+This repository can remain public as a portfolio showcase. Public visibility means the source code can be viewed and copied, so proprietary/private data must stay outside the repository.
+
+No license is intentionally declared in this repository. If you later want others to reuse the source code under specific terms, add an appropriate license.
+
+## Project structure
+
+```
+Public website
+     ↓
+Node.js server
+     ↓
+Runtime data/db.json   ← ignored/private
+     ↑
+data/db.example.json   ← safe starter template
+```
