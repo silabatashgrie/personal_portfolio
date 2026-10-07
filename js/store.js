@@ -23,7 +23,7 @@ async function loadServerData(){
 async function saveServerData(data){
   savePortfolioData(data);
   try{
-    const r=await fetch("/api/data",{method:"PUT",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(data)});
+    const r=await fetch("/api/data",{method:"PUT",headers:{"Content-Type":"application/json","X-CSRF-Token":window.__csrfToken||""},credentials:"same-origin",body:JSON.stringify(data)});
     if(!r.ok)throw new Error("Server save failed");
     return await r.json();
   }catch(e){return {ok:false,localOnly:true};}
