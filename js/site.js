@@ -17,7 +17,28 @@ function renderPublicSite(data) {
   const featured = document.getElementById("featuredProjects");
   if (featured) featured.innerHTML = (data.projects || []).filter(x => x.featured).slice(0, 3).map(projectCard).join("");
   const projects = document.getElementById("projectsGrid");
-  if (projects) projects.innerHTML = (data.projects || []).map(projectCard).join("") || emptyState("No projects added yet.");
+  if (projects) {
+    const filters = Array.from(document.querySelectorAll(".filters .filter"));
+    if (filters.length) {
+      const selected = filters.find(button => button.classList.contains("active"))?.textContent.trim() || "All";
+      const filtered = filterProjects(data.projects || [], selected);
+      projects.innerHTML = filtered.map(projectCard).join("") || emptyState("No projects match this filter yet.");
+      filters.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.textContent.trim() === selected));
+        button.onclick = () => {
+          filters.forEach(item => {
+            const active = item === button;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+          const matches = filterProjects(data.projects || [], button.textContent.trim());
+          projects.innerHTML = matches.map(projectCard).join("") || emptyState("No projects match this filter yet.");
+        };
+      });
+    } else {
+      projects.innerHTML = (data.projects || []).map(projectCard).join("") || emptyState("No projects added yet.");
+    }
+  }
   const portfolio = document.getElementById("portfolioGrid");
   if (portfolio) portfolio.innerHTML = (data.portfolio || []).map(portfolioCard).join("") || emptyState("No portfolio items yet.");
   const services = document.getElementById("servicesGrid");
@@ -31,6 +52,19 @@ function renderPublicSite(data) {
   if (stats) stats.textContent = `${(data.projects || []).length}+`;
   const skillCount = document.getElementById("skillCount");
   if (skillCount) skillCount.textContent = `${(data.skills || []).length}+`;
+}
+
+function filterProjects(projects, selected) {
+  const term = String(selected || "All").trim().toLowerCase();
+  if (term === "all") return projects;
+  const searchable = project => [project.title, project.category, project.description, ...(project.tech || [])].join(" ").toLowerCase();
+  const patterns = {
+    web: /web|website|frontend|front-end|html|css|javascript|ui\/?ux/,
+    software: /software|application|app|system|desktop|backend|back-end|api/,
+    ai: /(^|[^a-z])ai([^a-z]|$)|artificial intelligence|machine learning|deep learning|nlp|computer vision/
+  };
+  const pattern = patterns[term];
+  return pattern ? projects.filter(project => pattern.test(searchable(project))) : projects;
 }
 
 function projectCard(p) {
