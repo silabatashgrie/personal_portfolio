@@ -29,7 +29,7 @@ Then set environment variables before starting:
 
 ```powershell
 $env:ADMIN_USER="admin"
-$env:ADMIN_PASSWORD_HASH="scrypt$YOUR_SALT$YOUR_HASH"
+$env:ADMIN_PASSWORD_HASH='scrypt$YOUR_SALT$YOUR_HASH'
 node server.js
 ```
 
