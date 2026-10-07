@@ -22,6 +22,6 @@ function req(method,path,body,cookie,csrf){return new Promise((resolve,reject)=>
  r=await req("GET","/api/data");const after=JSON.parse(r.body);if(after.profile.name!=="V5 Integration Test")throw new Error("profile persistence failed");
  await req("PUT","/api/profile",JSON.stringify(original),cookie,csrf);
  r=await req("POST","/api/contact",JSON.stringify({name:"Test User",email:"test@example.com",subject:"Smoke test",message:"Integration test"}));if(r.status!==201)throw new Error("contact failed");
- r=await req("GET","/api/messages",null,cookie);if(r.status!==200||!JSON.parse(r.body).some(x=>x.email==="test@example.com"))throw new Error("message inbox failed");
+ r=await req("GET","/api/messages",null,cookie,csrf);if(r.status!==200||!JSON.parse(r.body).some(x=>x.email==="test@example.com"))throw new Error("message inbox failed");
  console.log("ALL TESTS PASSED");
 }catch(e){console.error("TEST FAILED:",e.message);process.exitCode=1;}finally{if(child)child.kill();}})();
