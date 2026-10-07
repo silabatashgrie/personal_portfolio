@@ -39,7 +39,7 @@ function sameOrigin(req){
   return false;
 }
 function isAuth(req){const sid=parseCookies(req).sid;const s=sid&&sessions.get(sid);if(!s||s.expires<Date.now()){if(sid)sessions.delete(sid);return false;}return true;}
-function requireAuth(req,res){if(!isAuth(req)){json(res,401,{error:"Unauthorized"});return false;}if(!sameOrigin(req)){json(res,403,{error:"Cross-origin request blocked"});return false;}return true;}
+function requireAuth(req,res){const sid=parseCookies(req).sid;const session=sid&&sessions.get(sid);if(!isAuth(req)){json(res,401,{error:"Unauthorized"});return false;}if(!sameOrigin(req)){json(res,403,{error:"Cross-origin request blocked"});return false;}if(!session||req.headers["x-csrf-token"]!==session.csrf){json(res,403,{error:"Invalid CSRF token"});return false;}return true;}
 function hashPassword(password,salt){return crypto.scryptSync(password,salt,64).toString("hex");}
 function verifyPassword(password,encoded){
   const parts=String(encoded||"").split("$");if(parts.length!==3||parts[0]!=="scrypt")return false;
