@@ -107,4 +107,4 @@ node test.js
 ```
 It checks all public/admin pages, API health/data, login/session, profile persistence, and contact-message delivery.
 
-**Last validation:** `ALL TESTS PASSED`.
+**Last validation:** `ALL TESTS PASSED`.test
